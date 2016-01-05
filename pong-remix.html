@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Interaction Project</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/addons/p5.dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        function setup() {
+            createCanvas(500, 400);
+        }
+
+        function draw() {
+            stroke(255, 255, 255); //outline of the man circle that moves in the middle
+            fill(254, 37, 96); //its color
+            ellipse(mouseX, 200, 300, 300); //the circle itself
+            fill(33, 237, 206); //the color of the rectangles that move up and down depending on the location of the mouse
+            rect(245, mouseY, 10, 240); //first rectangle
+            rect(150, mouseY, 10, 240); //second rectangle
+            rect(320, mouseY, 10, 240); //third rectangle
+        }
+
+        function mouseDragged() {
+            fill(107, 88, 247); //the color of the circle that shows up when the mouse is dragged
+            ellipse(mouseX, mouseY, 60, 60); //the circle itself
+        }
+
+        function keyPressed() {
+            stroke(255); //outline of the circle that shows up when a key is pressed
+            fill(116, 237, 26); //the color of the circle
+            ellipse(mouseX, mouseY, 100, 50); //the circle itself
+        }
+
+        function mouseReleased() {
+            background(mouseX / 2, mouseY / 2, mouseX + mouseY); //the background color changes depending on where the mouse is located on the canvas
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

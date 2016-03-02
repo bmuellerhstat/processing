@@ -2,140 +2,65 @@
 <html>
 
 <head>
-    <title>Processing Template</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/addons/p5.dom.js"></script>
+    <title>Pong</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
     <script>
-        var fruits = [];
-        var score = 0;
-        var paddleHeight = 55;
-        var paddleWidth = 100;
-        var cloud1;
-        var cloud2;
-        var cloud3;
-
+        var ballX;
+        var ballY;
+        var ballSpeedX = 5;
+        var ballSpeedY = 5;
+        var paddleHeight = 30;
 
         function setup() {
-            createCanvas(500, 500);
-
-            cloud1 = new Cloud();
-            cloud2 = new Cloud();
-            cloud3 = new Cloud();
-
+            createCanvas(800,600);
+            noCursor();
+            ballX = width / 2;
+            ballY = height / 2;
         }
 
         function draw() {
-            background(189, 255, 254);
+            background(128);
+            moveBall();
+            checkCollide();
+            drawPaddle();
+            drawBall();
+        }
 
+        function moveBall() {
+            ballX = ballX + ballSpeedX;
+            ballY = ballY + ballSpeedY;
 
-            cloud1.move();
-            cloud1.display();
+            console.log("ballSpeedX: " + ballSpeedX + 
+                        ", ballSpeedY: " + ballSpeedY);
+        }
 
-            cloud2.move();
-            cloud2.display();
+        function checkCollide() {
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1;
+            }
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1;
+            }
+            if (ballY > height - paddleHeight) {
+                if (ballX > mouseX && ballX < mouseX + 200) {
+                    ballSpeedY = ballSpeedY * -1;
+                }
+                else {
+                    text("GAME OVER!", width / 2, height / 2);
+                    noLoop();
+                }
+            }
+        }
 
-            cloud3.move();
-            cloud3.display();
-
-
-            //ground
-            fill(60, 110, 41);
-            rect(0, 490, width, 50);
-
-            //basket 
+        function drawBall() {
             noStroke();
-            fill(111, 78, 5);
-            rect(mouseX, 450, paddleWidth, paddleHeight);
-
-            for (var i = 0; i < fruits.length; i++) {
-                fruits[i].move();
-                fruits[i].display();
-                if(checkCollide(fruits[i])) {
-                    fruits.splice(i,1);
-                }
-              if (checkOffScreen(fruits[i])) {
-                fruits.splice(i,1);
-              }
-            }
-
-            if (frameCount % 120 == 0) {
-                fruits.push(new Fruit());
-            }
-
-            
-          
-                      fill(0);
-            textSize(45);
-            text("Score: " + score, 25, 75);
-
-
+            ellipse(ballX, ballY, 20, 20);
         }
 
-        function Fruit() {
-            this.x = random(width);
-            this.y = random(50, 100);
-            this.r = 187;
-            this.g = 22;
-            this.b = random(255);
-            this.speed = random(1, 2);
-
-            this.move = function() {
-                this.y += this.speed;
-                this.x += random(-2,2);
-
-            }
-            this.display = function() {
-                noStroke(0);
-                fill(this.r, this.g, this.b);
-                ellipse(this.x, this.y, 25, 25);
-            }
-
-
+        function drawPaddle() {
+            strokeWeight(4);
+            rect(mouseX, height - paddleHeight - 4, 200, paddleHeight);
         }
-
-        function checkCollide(berry) {
-
-            if (berry.y > height - paddleHeight) {
-                 console.log(score)
-                if (berry.x > mouseX && berry.x < mouseX + paddleWidth) {
-                    score += 1;
-                    return true;
-
-                }
-            }
-        }
-
-        function Cloud() {
-            this.x = random(width);
-            this.y = random(100);
-            this.speed = random(4);
-
-            this.move = function() {
-                //this.x += random(10);
-                this.x += this.speed;
-                if (this.x > width) {
-                    this.x = 0;
-                }
-            }
-
-            this.display = function() {
-                fill(255);
-                noStroke();
-
-                ellipse(this.x + 60, this.y + 20, 105, 70);
-                ellipse(this.x + 50, this.y, 105, 70);
-                ellipse(this.x, this.y, 75, 70);
-                ellipse(this.x - 10, this.y + 20, 75, 70);
-
-            }
-        }
-     
-      function checkOffScreen(berry){
-        if (berry.y > height) {
-            return true;
-        }
-        
-      }
     </script>
 </head>
 
@@ -143,4 +68,4 @@
 
 </body>
 
-</html>
+</html> 
